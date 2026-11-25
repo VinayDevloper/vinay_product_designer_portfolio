@@ -93,11 +93,26 @@ export const ThemeToggle: React.FC<{
   </button>
 );
 
+const SOCIAL_PILL_BRAND: Record<string, string> = {
+  linkedin:
+    "hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white hover:shadow-[0_4px_12px_rgba(10,102,194,0.35)]",
+  github:
+    "hover:bg-[#24292F] hover:border-[#24292F] hover:text-white dark:hover:bg-[#f0f6fc] dark:hover:border-[#f0f6fc] dark:hover:text-[#0d1117] hover:shadow-[0_4px_12px_rgba(36,41,47,0.3)] dark:hover:shadow-[0_4px_12px_rgba(240,246,252,0.2)]",
+  x:
+    "hover:bg-[#0F1419] hover:border-[#0F1419] hover:text-white dark:hover:bg-white dark:hover:border-white dark:hover:text-black hover:shadow-[0_4px_12px_rgba(15,20,25,0.3)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.2)]",
+  twitter:
+    "hover:bg-[#0F1419] hover:border-[#0F1419] hover:text-white dark:hover:bg-white dark:hover:border-white dark:hover:text-black hover:shadow-[0_4px_12px_rgba(15,20,25,0.3)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.2)]",
+  youtube:
+    "hover:bg-[#FF0000] hover:border-[#FF0000] hover:text-white hover:shadow-[0_4px_12px_rgba(255,0,0,0.35)]"
+};
+
 export const SocialIcons: React.FC<{ className?: string }> = ({ className = "" }) => (
   <div className={`flex items-center gap-2 sm:gap-2.5 ${className}`}>
     {SOCIALS.map((s: SocialLink) => {
       const Icon = ICONS[s.icon] || Linkedin;
-      const isLinkedIn = s.icon === 'linkedin';
+      const brandClass =
+        SOCIAL_PILL_BRAND[s.icon] ||
+        "hover:text-ink hover:border-lime/40 hover:bg-black/5 dark:hover:bg-white/10";
       return (
         <a
           key={s.name}
@@ -107,11 +122,7 @@ export const SocialIcons: React.FC<{ className?: string }> = ({ className = "" }
           data-testid={`social-${s.icon}`}
           aria-label={s.name}
           title={s.name}
-          className={`group relative flex items-center justify-center w-9 h-9 rounded-full border border-line bg-surface text-ink/75 dark:text-mut transition-all duration-200 backdrop-blur-md m3-elevation-1 hover:scale-105 active:scale-95 ${
-            isLinkedIn
-              ? "hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white hover:shadow-[0_4px_12px_rgba(10,102,194,0.35)]"
-              : "hover:text-ink hover:border-lime/40 hover:bg-black/5 dark:hover:bg-white/10"
-          }`}
+          className={`group relative flex items-center justify-center w-9 h-9 rounded-full border border-line bg-surface text-ink/75 dark:text-mut transition-all duration-200 backdrop-blur-md m3-elevation-1 hover:scale-105 active:scale-95 ${brandClass}`}
         >
           <Icon size={15} strokeWidth={1.75} className="transition-transform group-hover:scale-110" />
         </a>

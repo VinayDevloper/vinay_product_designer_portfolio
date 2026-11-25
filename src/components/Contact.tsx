@@ -119,7 +119,49 @@ export default function Contact({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                 {SOCIALS.map((s: SocialLink) => {
                   const Icon = ICONS[s.icon] || (s.icon === 'x' ? XIcon : ICONS.linkedin);
-                  const isLinkedIn = s.icon === 'linkedin';
+
+                  const brandTheme: Record<
+                    string,
+                    { card: string; iconBox: string; title: string; arrow: string }
+                  > = {
+                    linkedin: {
+                      card: "hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/[0.06] dark:hover:bg-[#0A66C2]/10",
+                      iconBox:
+                        "border-[#0A66C2]/25 bg-[#0A66C2]/10 text-[#0A66C2] dark:border-[#0A66C2]/30 dark:bg-[#0A66C2]/15 dark:text-[#3b93ec] group-hover:bg-[#0A66C2] group-hover:border-[#0A66C2] group-hover:text-white",
+                      title: "group-hover:text-[#0A66C2] dark:group-hover:text-[#3b93ec]",
+                      arrow: "group-hover:text-[#0A66C2] dark:group-hover:text-[#3b93ec]"
+                    },
+                    github: {
+                      card: "hover:border-[#24292F]/40 hover:bg-[#24292F]/[0.05] dark:hover:border-white/35 dark:hover:bg-white/[0.06]",
+                      iconBox:
+                        "border-[#24292F]/20 bg-[#24292F]/8 text-[#24292F] dark:border-white/15 dark:bg-white/10 dark:text-[#f0f6fc] group-hover:bg-[#24292F] group-hover:border-[#24292F] group-hover:text-white dark:group-hover:bg-[#f0f6fc] dark:group-hover:border-[#f0f6fc] dark:group-hover:text-[#0d1117]",
+                      title: "group-hover:text-[#24292F] dark:group-hover:text-white",
+                      arrow: "group-hover:text-[#24292F] dark:group-hover:text-white"
+                    },
+                    x: {
+                      card: "hover:border-black/40 hover:bg-black/[0.04] dark:hover:border-white/40 dark:hover:bg-white/[0.06]",
+                      iconBox:
+                        "border-black/15 bg-black/5 text-black dark:border-white/15 dark:bg-white/10 dark:text-white group-hover:bg-black group-hover:border-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:border-white dark:group-hover:text-black",
+                      title: "group-hover:text-black dark:group-hover:text-white",
+                      arrow: "group-hover:text-black dark:group-hover:text-white"
+                    },
+                    youtube: {
+                      card: "hover:border-[#FF0000]/45 hover:bg-[#FF0000]/[0.06] dark:hover:bg-[#FF0000]/10",
+                      iconBox:
+                        "border-[#FF0000]/25 bg-[#FF0000]/10 text-[#FF0000] dark:border-[#FF0000]/30 dark:bg-[#FF0000]/15 dark:text-[#ff4e45] group-hover:bg-[#FF0000] group-hover:border-[#FF0000] group-hover:text-white",
+                      title: "group-hover:text-[#FF0000] dark:group-hover:text-[#ff4e45]",
+                      arrow: "group-hover:text-[#FF0000] dark:group-hover:text-[#ff4e45]"
+                    }
+                  };
+
+                  const style = brandTheme[s.icon] || {
+                    card: "hover:bg-black/[0.03] dark:hover:bg-white/[0.05] hover:border-lime/40",
+                    iconBox:
+                      "border-line bg-surface text-ink/80 dark:text-mut group-hover:text-accenttext group-hover:border-lime/40",
+                    title: "group-hover:text-accenttext",
+                    arrow: "group-hover:text-ink"
+                  };
+
                   return (
                     <a
                       key={s.name}
@@ -127,27 +169,15 @@ export default function Contact({
                       target="_blank"
                       rel="noopener noreferrer"
                       data-testid={`footer-social-${s.icon}`}
-                      className={`group flex items-center gap-3 p-3.5 rounded-2xl border border-line bg-bg/70 dark:bg-surface/45 active:scale-[0.98] transition-all duration-200 ${
-                        isLinkedIn
-                          ? "hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/[0.06] dark:hover:bg-[#0A66C2]/10"
-                          : "hover:bg-black/[0.03] dark:hover:bg-white/[0.05] hover:border-lime/40"
-                      }`}
+                      className={`group flex items-center gap-3 p-3.5 rounded-2xl border border-line bg-bg/70 dark:bg-surface/45 active:scale-[0.98] transition-all duration-200 ${style.card}`}
                     >
                       <div
-                        className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-colors duration-200 shrink-0 ${
-                          isLinkedIn
-                            ? "border-[#0A66C2]/25 bg-[#0A66C2]/10 text-[#0A66C2] dark:border-line dark:bg-surface dark:text-mut group-hover:bg-[#0A66C2] group-hover:border-[#0A66C2] group-hover:text-white"
-                            : "border-line bg-surface text-ink/80 dark:text-mut group-hover:text-accenttext group-hover:border-lime/40"
-                        }`}
+                        className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-colors duration-200 shrink-0 ${style.iconBox}`}
                       >
                         <Icon size={15} />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div
-                          className={`text-xs sm:text-[13px] font-semibold text-ink transition-colors truncate ${
-                            isLinkedIn ? "group-hover:text-[#0A66C2] dark:group-hover:text-[#3b93ec]" : "group-hover:text-accenttext"
-                          }`}
-                        >
+                        <div className={`text-xs sm:text-[13px] font-semibold text-ink transition-colors truncate ${style.title}`}>
                           {s.name}
                         </div>
                         <div className="text-[11px] font-mono text-mut truncate">
@@ -156,9 +186,7 @@ export default function Contact({
                       </div>
                       <ExternalLink
                         size={13}
-                        className={`text-mut transition-all shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                          isLinkedIn ? "group-hover:text-[#0A66C2] dark:group-hover:text-[#3b93ec]" : "group-hover:text-ink"
-                        }`}
+                        className={`text-mut transition-all shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${style.arrow}`}
                       />
                     </a>
                   );
