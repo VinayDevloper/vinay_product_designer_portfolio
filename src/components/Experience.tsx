@@ -32,8 +32,20 @@ export default function Experience(): React.JSX.Element {
                 <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-ink group-hover:text-accenttext transition-colors">
                   {e.title}
                 </h3>
-                <div className="text-xs font-mono text-faint uppercase tracking-wider mt-1.5 mb-3.5">
-                  {e.org}
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs sm:text-[13px] mt-1.5 mb-3.5">
+                  <span className="font-medium text-ink/85">{e.org}</span>
+                  {e.location && (
+                    <>
+                      <span className="text-faint" aria-hidden="true">·</span>
+                      <span className="text-mut">{e.location}</span>
+                    </>
+                  )}
+                  {e.workMode && (
+                    <>
+                      <span className="text-faint" aria-hidden="true">·</span>
+                      <span className="font-mono text-[11px] text-accenttext">{e.workMode}</span>
+                    </>
+                  )}
                 </div>
                 <p className="text-sm leading-relaxed text-mut font-light max-w-2xl">
                   {e.body}

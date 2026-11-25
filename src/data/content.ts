@@ -42,6 +42,8 @@ export interface ExperienceItem {
   period: string;
   title: string;
   org: string;
+  location?: string;
+  workMode?: string;
   body: string;
 }
 
@@ -373,18 +375,22 @@ export const EXPERIENCE: ExperienceItem[] = [
     period: "Oct 2026 — Present",
     title: "Tech Support Executive",
     org: "Softmate Systems LLP",
-    body: "Delivering technical troubleshooting, system workflow coordination, and customer escalation management — aligning customer support insights with product reliability and performance."
+    location: "Collector Office, Sindhudurg",
+    workMode: "On-site",
+    body: "Providing on-site technical support at the Sindhudurg Collector Office—resolving day-to-day software issues for government end users, monitoring project systems, and coordinating issue resolution with the engineering team."
   },
   {
     period: "Dec 2025 — Present",
     title: "Product Designer",
-    org: "Silicon Mount",
-    body: "Leading end-to-end user experience and interface design across web and mobile products. Designing tokenized Figma component libraries, conducting usability research, and partnering closely with engineers for implementation."
+    org: "SiliconMount Tech Services",
+    location: "Pune, Maharashtra",
+    workMode: "Remote",
+    body: "Leading end-to-end UX and UI design remotely across enterprise web and mobile products—building tokenized Figma component libraries, conducting usability research, and partnering closely with Pune-based developers from architecture through handoff."
   },
   {
     period: "Nov 2022 — July 2026",
     title: "B.Tech — Information Technology",
-    org: "Maharashtra, India",
+    org: "Raigad, Maharashtra, India",
     body: "Solid foundation in computer science, systems architecture, and frontend engineering — enabling design decisions deeply grounded in how real software is built."
   }
 ];
