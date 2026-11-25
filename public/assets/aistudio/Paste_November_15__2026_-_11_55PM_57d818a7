@@ -1,0 +1,485 @@
+## 2.1 PURPOSE & COMPETITOR SCOPE
+
+### Why this research is being conducted
+
+This research directly informs:
+
+- Product architecture
+- Module organization
+- UX patterns
+- Operational workflows
+- Traceability capabilities
+- Implementation decisions
+
+The client currently uses / previously used **Fishbowl** as an operational baseline.
+
+The goal is:
+
+> Retain necessary operational depth while improving usability, architecture, traceability, and scalability.
+> 
+
+> **What exactly should we implement, why should we implement it, and how should it work?**
+> 
+
+### Competitor Scope
+
+| Group | Competitors | Research Purpose |
+| --- | --- | --- |
+| **Direct Competitors** | Fishbowl, Katana, Cin7, Unleashed, MRPeasy | Application structure, inventory, manufacturing, warehouse operations and UX |
+| **ERP / WMS Platforms** | Zoho Inventory, NetSuite WMS, SAP Business One, Odoo Inventory, Odoo Manufacturing | Modular architecture, warehouse depth, scalability and enterprise workflows |
+| **Food / Traceability Platforms** | FoodLogiQ, BatchMaster, ParityFactory, TraceGains | Lot genealogy, recall, supplier traceability, quality and compliance patterns |
+
+---
+
+# 2.2 COMPETITIVE APPLICATION ARCHITECTURE
+
+### 2.2.1 COMPLETE SIDE-BY-SIDE APPLICATION ARCHITECTURE
+
+The following table shows how each competitor actually organizes its application, using actual module names where evidence supports it. No false alignment has been forced.
+
+| **Fishbowl** | **Katana MRP** | **Cin7** | **Odoo** | **Food / Traceability Tool** |
+| --- | --- | --- | --- | --- |
+| **Inventory** | **Inventory** | **Inventory** | **Inventory** | **Traceability** (FoodLogiQ) |
+| ├ Stock | ├ Raw Materials | ├ Stock Control | ├ Receipts | ├ Critical Tracking Events |
+| ├ Locations | ├ Finished Goods | ├ Multi-warehouse | ├ Deliveries | ├ Lot Genealogy |
+| ├ Receiving | ├ WIP | ├ Transfers | ├ Internal Transfers | ├ Forward Trace |
+| ├ Shipping | ├ Locations | ├ Adjustments | ├ Stock Adjustments | ├ Backward Trace |
+| ├ Transfer Orders | ├ Stock Adjustments | ├ Cycle Counts | ├ Replenishment | **Recall** (FoodLogiQ) |
+| ├ Cycle Counts | └ Stock Movements | └ Barcode Scanning | ├ Lot/Serial Tracking | ├ Recall Initiation |
+| ├ Barcode Scanning | **Production** | **Orders** | ├ Packages | ├ Withdrawal Tracking |
+| └ Lot/Serial Tracking | ├ Manufacturing Orders | ├ Sales Orders | └ Valuation | └ Mock Recalls |
+| **Manufacturing** | ├ BOMs | ├ Purchase Orders | **Manufacturing** | **Compliance** (FoodLogiQ) |
+| ├ Bills of Materials | ├ Production Schedule | ├ Quotes | ├ BOMs | ├ Supplier Docs |
+| ├ Work Orders | ├ Shop Floor App | ├ Backorders | ├ Manufacturing Orders | ├ Quality Incidents |
+| ├ Production Stages | ├ Operations | └ Returns | ├ Work Orders | └ Audits |
+| ├ MRP | └ Traceability | **Warehouse** | ├ Work Centers | **Supplier Mgmt** (TraceGains) |
+| ├ Labor Tracking | **Procurement** | ├ Receiving | ├ Routings | ├ Supplier Network |
+| └ Job Costing | ├ Purchase Orders | ├ Putaway | ├ Planning | ├ COA Processing |
+| **Sales** | ├ Suppliers | ├ Picking | ├ Shop Floor | ├ Certifications |
+| ├ Sales Orders | └ Reorder Points | ├ Packing | └ By-products/Scrap | └ Risk Assessment |
+| ├ Quotes | **Sales** | ├ Shipping | **Quality** | **Product Mgmt** (BatchMaster) |
+| ├ Customers | ├ Sales Orders | ├ Bin Management | ├ Quality Checks | ├ Specifications |
+| ├ Pricing Rules | ├ Customers | └ Mobile WMS App | ├ Quality Alerts | ├ Formulations |
+| └ Shipping | └ eCommerce Sync | **Manufacturing** | ├ Non-conformances | └ Labeling |
+| **Purchasing** | **Analytics** | ├ BOMs | └ Control Points |  |
+| ├ Purchase Orders | ├ Insights Dashboard | ├ Production Orders | **Maintenance** |  |
+| ├ Suppliers | └ Reports | └ MRP | ├ Equipment |  |
+| ├ Reorder Points |  | **B2B Portal** | ├ Preventive Schedules |  |
+| └ Auto PO Wizard |  | **Forecasting** | └ Corrective Requests |  |
+| **Reporting** |  | └ ForesightAI | **PLM** |  |
+| ├ Inventory Reports |  |  | ├ Engineering Changes |  |
+| ├ Manufacturing Reports |  |  | ├ BOM Revisions |  |
+| └ Custom Reports |  |  | └ Document Control |  |
+| **Mobile** |  |  | **Barcode** |  |
+| ├ Fishbowl Mobile |  |  | ├ Receipts |  |
+| ├ Barcode Scanning |  |  | ├ Picking |  |
+| └ Cycle Counting |  |  | ├ Transfers |  |
+|  |  |  | └ Inventory Counts |  |
+
+---
+
+## 2.2.2 ARCHITECTURE INSIGHTS
+
+| Architecture Observation | Evidence / Competitor | Research Fact | Product Learning | Reference |
+| --- | --- | --- | --- | --- |
+| Deep operational structure | Fishbowl | Inventory, manufacturing, purchasing and sales are deeply connected operational areas | Keep operational depth, but simplify access and daily workflows | https://fishbowlinventory.com/products |
+| Production-focused workspace | Katana | Manufacturing workflows are organized around production operations and shop floor activity | Production users need focused workspaces rather than broad ERP navigation | https://katanamrp.com/home ; https://katanamrp.com/blog/shop-floor-control-app/ |
+| Broad connected platform | Cin7 | Inventory connects with order, fulfillment and multichannel operations | Integration should be extensible, but not overload the core product | https://www.cin7.com/ |
+| Cloud-first operational structure | Unleashed | Inventory, production, purchasing and sales are connected in a cloud platform | Keep connected data across modules | https://www.unleashedsoftware.com/en-us/ |
+| Simpler manufacturing planning | MRPeasy | Manufacturing planning and scheduling are presented in an accessible way | Complex operations should still remain understandable for smaller teams | https://www.mrpeasy.com/inventory-management-software |
+| Modular expansion | Odoo | Inventory, Manufacturing, Quality, Barcode and other apps can work as connected modules | Use an industry-neutral core with optional extensions | https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp.html |
+| Enterprise warehouse execution | NetSuite WMS | Receiving, putaway, picking and mobile warehouse workflows are structured operationally | Advanced warehouse controls should be available when complexity grows | https://www.netsuite.com/portal/products/erp/warehouse-fulfillment/wms.shtml |
+| Food-specific operational convergence | ParityFactory | Warehouse, production and food operations are closely connected | Warehouse and production must remain connected for full traceability | https://www.advantive.com/products/parityfactory/ |
+| Traceability-first architecture | FoodLogiQ | Traceability and recall workflows are central product functions | Traceability should be embedded in operational data, not added afterward | https://knowledge.foodlogiq.com/hc/en-us/categories/13785839236109-Traceability |
+| Supplier compliance layer | TraceGains | Supplier and compliance information are organized as connected supplier data | Supplier data should support operational traceability | https://www.tracegains.com/ |
+
+---
+
+# 2.3 RECOMMENDED APPLICATION ARCHITECTURE FOR OUR PRODUCT
+
+Industry-neutral core with optional extensions
+
+Based on:
+
+**Fishbowl baseline + validated competitor research + client workflow + traceability requirements + future scalability**
+
+```
+WAREHOUSE MANAGEMENT PLATFORM
+│
+├── DASHBOARD
+│   ├── Current Operations (what's happening now)
+│   ├── Pending Work (receipts to process, orders to fulfill)
+│   ├── Alerts & Exceptions (low stock, expired lots, quality holds)
+│   ├── Quick Actions (receive, transfer, produce, ship)
+│   └── Traceability Search (universal identifier lookup)
+│
+├── OPERATIONS
+│   ├── Receiving
+│   │   ├── Expected Receipts
+│   │   ├── Scan & Receive
+│   │   ├── Inspection / Quality Check
+│   │   ├── Internal Lot Assignment
+│   │   └── Pallet Creation
+│   ├── Inventory
+│   │   ├── Stock Overview
+│   │   ├── Lot/Serail Tracking
+│   │   ├── Expiry Management
+│   │   ├── Adjustments
+│   │   └── Cycle Counts
+│   ├── Warehouse
+│   │   ├── Location Management
+│   │   ├── Pallet Tracking
+│   │   ├── Transfers
+│   │   ├── Putaway
+│   │   └── Picking
+│   ├── Production
+│   │   ├── Production Batches
+│   │   ├── BOMs / Formulas
+│   │   ├── Material Consumption
+│   │   ├── Work Orders
+│   │   └── Output Lots
+│   ├── Packaging
+│   │   ├── Packaging Batches
+│   │   ├── Case Creation
+│   │   ├── Finished Goods Lots
+│   │   └── Finished Goods Pallets
+│   └── Shipping
+│       ├── Shipments
+│       ├── Pick & Pack
+│       ├── Scan to Verify
+│       ├── Dispatch Confirmation
+│       └── Customer Link
+│
+├── TRACEABILITY
+│   ├── Lot Genealogy (parent/child lot relationships)
+│   ├── Forward Trace (where did this lot go?)
+│   ├── Backward Trace (where did this lot come from?)
+│   ├── Recall Management
+│   │   ├── Recall Initiation
+│   │   ├── Affected Inventory
+│   │   ├── Affected Shipments
+│   │   └── Affected Customers
+│   └── Investigation Reports
+│
+├── CONTROL
+│   ├── Quality Checks
+│   ├── Quarantine / Hold
+│   ├── Non-conformance
+│   └── Corrective Actions
+│
+├── REPORTS
+│   ├── Inventory Reports
+│   ├── Production Reports
+│   ├── Traceability Reports
+│   ├── Quality Reports
+│   └── Custom Reports
+│
+├── MASTER DATA
+│   ├── Items / SKUs
+│   ├── Suppliers
+│   ├── Customers
+│   ├── Locations / Bins
+│   ├── BOMs / Formulas
+│   ├── Units of Measure
+│   └── Barcode Templates
+│
+└── ADMINISTRATION
+    ├── Users & Roles
+    ├── Workflows
+    ├── Alerts & Notifications
+    ├── Integration Settings
+    └── System Configuration
+```
+
+---
+
+# 2.4 FEATURE & UX PATTERN COMPARISON
+
+| Feature / UX Area | Fishbowl | Katana | Cin7 | Odoo | Exact Food / Traceability Evidence | Product Learning |
+| --- | --- | --- | --- | --- | --- | --- |
+| Dashboard | Operational data visibility | Production-focused visibility | Broad business visibility | App-based dashboards | ParityFactory operational visibility | Dashboard should prioritize action and exceptions |
+| Navigation | Deep module structure | Focused workspace | Broad feature structure | Modular apps | FoodLogiQ workflow-based access | Group daily operations separately from administration |
+| Inventory Visibility | Detailed inventory control | Production-linked stock | Multi-channel stock | Advanced inventory controls | ParityFactory real-time operational inventory | Show current stock + status + location + lot context |
+| Scanning | Mobile scanning | Shop floor workflows | Mobile WMS | Barcode application | FoodLogiQ mobile recall actions | Use scan-first workflows for physical operations |
+| Lot Tracking | Native lot tracking | Available based on configuration / plan | Inventory tracking capabilities | Lots / serial tracking | BatchMaster graphical lot traceability | Lot tracking must connect across all transformations |
+| Traceability | Operational lot tracking | Manufacturing traceability | Inventory / order connections | Lot history and manufacturing links | FoodLogiQ + BatchMaster traceability workflows | Build native forward and backward traceability |
+| Production | Work orders and manufacturing depth | Visual production workflow | Production management | Manufacturing orders and routing | ParityFactory food production operations | Keep production deep but visually focused |
+| Quality | Operational controls | Production-linked controls | Configurable workflows | Dedicated Quality module | ParityFactory embedded food quality | Quality should act as workflow checkpoints |
+| Warehouse Execution | Transfers, counts, locations | Basic warehouse support | WMS / fulfillment features | Putaway, picking, multi-step routes | ParityFactory warehouse + production connection | Support simple-to-advanced warehouse complexity |
+
+---
+
+# 2.5 STANDOUT UX PATTERNS WORTH BORROWING
+
+| UX Pattern | Competitor | Exact Module / Workflow | Research Fact | Where We Apply It | Implementation Direction | Reference |
+| --- | --- | --- | --- | --- | --- | --- |
+| Focused operational workspace | Katana | Production / Shop Floor | Production work is presented around active manufacturing tasks | Production | Dedicated batch workspace with current stage and next action | https://support.katanamrp.com/en/collections/3335413-shop-floor-and-warehouse-apps |
+| Modular application structure | Odoo | Inventory / Manufacturing / Quality / Barcode | Connected apps can be enabled based on business needs | Platform Architecture | Core modules + optional extensions | https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp.html |
+| Scan-driven warehouse execution | NetSuite WMS / Odoo | Receiving, picking, transfers | Mobile scanning supports physical warehouse workflows | Receiving, Warehouse, Shipping | Scan → Identify → Show Context → Confirm | https://www.netsuite.com/portal/products/erp/warehouse-fulfillment/mobile-warehouse-management.shtml ; https://www.odoo.com/documentation/16.0/applications/inventory_and_mrp/inventory/barcode.html |
+| Lot genealogy | BatchMaster | Batch / lot traceability | Lot relationships can be traced across transformations | Traceability | Parent-child lot relationship engine | https://www.batchmaster.com/regulatory-compliance-software/lot-traceability/ |
+| Recall workflow | FoodLogiQ | Recall / withdrawal workflow | Traceability supports recall investigation and response | Traceability | Search identifier → trace impact → identify affected inventory / customers | http://knowledge.foodlogiq.com/hc/en-us |
+| WMS + production connection | ParityFactory | Warehouse + production operations | Warehouse and manufacturing information remain connected | Operations | Shared operational data across receiving → production → packaging | https://www.advantive.com/products/parityfactory/ |
+| Supplier information management | TraceGains | Supplier / compliance workflows | Supplier data and documentation support compliance visibility | Master Data / Traceability | Supplier records connected to lots and operational history | http://tracegains.com/compliance/supplier-management/ |
+
+---
+
+# 2.6 COMPETITOR STRENGTHS, GAPS & LESSONS VS FISHBOWL
+
+| **Competitor** | **Area** | **Competitor Strength** | **Fishbowl Strength** | **Gap / Weakness** | **Product Lesson** | **Implementation Direction** |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Katana** | UX / Interface | Visual, approachable interface. Users learn in hours, not weeks. | Deep operational functionality; customizable workflows. | Katana lacks Fishbowl's operational depth for complex manufacturing. Fishbowl lacks Katana's visual clarity. | **Keep depth, improve clarity.** Production workspaces should be visual and focused, not spreadsheet-like. | Production Module: Kanban-style work order board. Clean, focused interface for daily operations. |
+| **Katana** | Traceability Pricing | Transparent tiered pricing. | Lot/serial tracking included natively. | Katana charges $249/month extra for traceability — a critical feature for food. | **Traceability must be core, not premium.** Charging extra for lot tracking alienates food manufacturers. | Include lot tracking, expiry management, and basic traceability in base platform. |
+| **Cin7** | Multichannel Integration | 700+ integrations; real-time sync across Shopify, Amazon, eBay, etc. | Strong QuickBooks integration; deep inventory control. | Cin7's breadth can overwhelm smaller operations. Fishbowl's narrower focus is easier to manage. | **Support multichannel, but don't force it.** Make commerce integrations optional extensions, not core complexity. | Commerce Extension: Optional module for e-commerce sync. Core platform stays operationally focused. |
+| **Cin7** | AI Forecasting | ForesightAI: ML-based demand forecasting up to 24 months. | Reorder points and basic MRP. | ForesightAI is still maturing; may not be reliable for all businesses. | **AI is promising but not a replacement for operational discipline.** Implement basic forecasting first, add AI later. | Phase 2: Demand forecasting. Phase 3: ML-enhanced predictions. |
+| **Odoo** | Modular Flexibility | 30+ modules; start small, expand. Highly customizable with Studio. | Deep, integrated inventory + manufacturing out of the box. | Odoo requires significant configuration and expertise. Fishbowl works faster for standard manufacturing. | **Modular is powerful, but configuration must be guided.** Provide pre-configured templates for common industries (food, dry goods). | Template-based setup: Select industry → pre-configured modules, workflows, and fields. |
+| **Odoo** | Warehouse Depth | Wave, cluster, batch picking; smart routes; putaway rules; bin management. | Transfer orders; location tracking; basic bin support. | Odoo's warehouse features require significant setup. Fishbowl's are simpler but less sophisticated. | **Implement advanced warehouse patterns, but make them optional.** Small operations need simple; growing ones need advanced. | Configurable warehouse complexity: 1-step (simple) → 2-step (staging) → 3-step (quality + directed putaway). |
+| **NetSuite WMS** | ERP Integration | Native WMS within ERP — zero sync lag, one database. | Deep QuickBooks integration (financial sync). | NetSuite is expensive and complex. Fishbowl is more accessible for SMBs. | **Tight operational-financial integration is valuable.** But don't require NetSuite-level complexity to achieve it. | Integrate with accounting systems (QuickBooks, Xero) with real-time sync, not batch. |
+| **SAP B1** | Manufacturing + Quality | Integrated quality checks, batch traceability, defect tracking, compliance reporting. | Production stages, labor tracking, job costing. | SAP B1 is expensive and requires expertise. Fishbowl is more approachable. | **Quality and traceability should be native, not afterthoughts.** Food operations need this from day one. | Quality Module: Embedded checks at receiving, production, packaging. Traceability Module: Core lot genealogy. |
+| **Unleashed** | Batch Tracking | End-to-end batch tracking; barcode scanning; food & beverage focus. | Similar lot/serial capabilities. | Unleashed is cloud-native and simpler to deploy. Fishbowl has deeper manufacturing. | **Cloud-native deployment reduces IT burden.** But ensure offline capability for warehouse floor operations. | Cloud-first architecture with offline mobile support for scanning and production logging. |
+| **MRPeasy** | Approachability | Quick onboarding; intuitive layout; drag-and-drop rescheduling; affordable. | More comprehensive for complex operations. | MRPeasy lacks depth for multi-warehouse, complex traceability. | **Onboarding speed matters.** Small teams won't tolerate 6-8 week implementations. Design for fast setup with templates. | Guided setup wizard: Import data → configure workflows → go live in days, not weeks. |
+| **ParityFactory** | Food-Specific WMS+MES | Real-time inventory + lot traceability + production scheduling + quality control, built for food. | General manufacturing/warehouse platform. | ParityFactory is specialized and expensive ($1,000+/month). Fishbowl is general-purpose. | **Food-specific patterns are essential, but build on neutral core.** Don't make the whole product food-only. | Core: Industry-neutral WMS + MRP. Extension: Food Traceability (lot genealogy, recall, FSMA 204 readiness). |
+| **FoodLogiQ** | Recall Management | Reduce recall execution time by 50%; mobile recall response; mock recalls. | One-click recall reports. | FoodLogiQ is a separate platform, not integrated with inventory/ERP. | **Recall must be integrated with inventory and shipping data.** Standalone traceability creates data gaps. | Traceability Module: Direct integration with Inventory, Production, and Shipping. One-click recall from any lot. |
+| **BatchMaster** | Graphical Traceability | Bi-directional graphical lot traceability tool; recall letter generation. | Lot tracking and recall reports. | BatchMaster is process-manufacturing specific (formulas, not discrete BOMs). | **Graphical traceability is a UX differentiator.** Tables of lot data are hard to read under pressure. | Interactive lot genealogy tree: Click any lot to trace forward/backward visually. |
+
+---
+
+# 2.7 RESEARCH FINDING → PRODUCT RECOMMENDATION
+
+**1. Scan-Based Operations**
+
+- **Fact**: NetSuite, Odoo, Cin7, and ParityFactory use barcode/RFID for scan-first workflows. Katana scans for material consumption.
+- **Inference**: Physical ops need speed and zero manual typing errors. Scan-first enforces accuracy at the action point.
+- **Rec**: Implement across all major physical operations.
+- **Actions**:
+    - Receiving → Scan PO/Container → confirm items → trigger inspection.
+    - Transfer → Scan Pallet → scan destination → record movement.
+    - Production → Scan Batch → scan raw lot → verify validity → consume.
+    - Packaging → Scan output lot → create packaging batch → scan case labels.
+    - Shipping → Scan shipment → scan finished pallet → verify customer → dispatch.
+
+---
+
+**2. Lot Genealogy & Traceability**
+
+- **Fact**: BatchMaster provides graphical bi-directional tracing. FoodLogiQ captures CTEs/KDEs for FSMA 204. Fishbowl has native tracking but lacks visual genealogy.
+- **Inference**: Traceability is a continuous parent/child chain (receiving → production → packaging → shipping), not disconnected records. Graphical views cut recall investigation time drastically.
+- **Rec**: Build native lot genealogy engine with graphical forward/backward tree and one-click recall.
+- **Actions**:
+    - Assign unique internal lot at receiving.
+    - Production links consumed raw lots → created output lots (parent/child).
+    - Packaging links production output → finished goods lots.
+    - Shipping links finished lots → customers.
+    - Trace search: Enter ID → show interactive tree → click to traverse history.
+    - Recall: Select lot → auto-identify affected inventory, shipments, customers → generate letters.
+
+---
+
+**3. Production-Centric Workspace**
+
+- **Fact**: Katana centers on production with visual kanban. Fishbowl has deep MRP but uses traditional ERP grids. Odoo requires heavy config.
+- **Inference**: Food manufacturers need production as the heart. Workspace must filter out accounting/sales clutter but show material availability in the same view.
+- **Rec**: Dedicated Production workspace with dashboard, kanban board, and shop-floor view.
+- **Actions**:
+    - Dashboard: Kanban stages (Planned → In Progress → QC → Completed).
+    - Batch cards show: product, qty, scheduled date, material availability (Red/Yellow/Green).
+    - Click card → detail view with BOM, consumed lots, output lots, quality checks.
+    - Shop Floor View: Simple task list for operators with scan-to-consume workflow.
+
+---
+
+**4. Exception-Driven Operations**
+
+- **Fact**: Competitors have fragmented alerts (reorder, expiry, quality) but no unified exception dashboard.
+- **Inference**: Managers waste time hunting for problems. Surfacing issues proactively with resolution paths boosts daily efficiency.
+- **Rec**: Unified Exceptions panel on the main dashboard aggregating all operational alerts.
+- **Actions**:
+    - Exception types: Expired Lots, Low Stock, Quality Holds, Overdue Inspections, Production Delays, Pending Receiving, Unfulfilled Orders.
+    - Display severity, location, responsible user, suggested action.
+    - Click exception → jump directly to resolution screen (e.g., Expired Lot → quarantine screen).
+    - Configurable thresholds per item/location.
+
+---
+
+**5. Quality Embedded in Workflow**
+
+- **Fact**: Odoo, SAP B1, and ParityFactory embed quality gates in operations. Fishbowl lacks native depth. FoodLogiQ treats quality as documentation, not workflow.
+- **Inference**: Quality checks are most effective as workflow gates (block progression until passed), not separate activities.
+- **Rec**: Embed configurable quality checkpoints into receiving, production, packaging, and shipping.
+- **Actions**:
+    - Receiving: Inspection required before lot is available for use.
+    - Production: Quality checkpoint before marking batch complete.
+    - Packaging: Verification check before finished goods lot creation.
+    - Shipping: Final verification before dispatch.
+    - Non-conformance: Trigger quarantine, corrective action, or rejection workflow.
+
+---
+
+**6. Modular Architecture**
+
+- **Fact**: Odoo and others separate capabilities into optional modules; not every customer needs all features from day one.
+- **Inference**: Avoid bloat. Allow phased adoption while keeping data connected.
+- **Rec**: Core + Extensions architecture.
+- **Actions**:
+    - **Core**: Inventory, Warehouse, Operations, Master Data.
+    - **Extensions (optional/activated)**: Industry-specific Traceability, Advanced Quality, Commerce (e-commerce sync), Advanced Planning, Future Integrations.
+
+---
+
+# 2.8 STRATEGIC OPPORTUNITY AREAS
+
+| Problem / Market Gap | Competitive Evidence | Opportunity for Our Product | Recommended Direction |
+| --- | --- | --- | --- |
+| **Complex enterprise interfaces** | SAP B1 and Odoo require significant expertise and configuration. Fishbowl has deep functionality but complex setup (6-8 weeks). | Mid-market manufacturers need operational depth without enterprise complexity. | **Guided setup + templates**: Pre-configured industry templates (food, dry goods) with guided workflows. Reduce time-to-value from weeks to days. |
+| **Fragmented traceability** | FoodLogiQ and TraceGains are separate platforms from ERP/WMS. Fishbowl has lot tracking but limited genealogy. BatchMaster has graphical trace but is process-specific. | Food manufacturers need traceability fully integrated with inventory, production, and shipping — not a bolt-on. | **Native lot genealogy engine**: Core platform capability, not an add-on. Links every transformation event in one system. |
+| **Slow warehouse operations** | Many platforms (Katana, MRPeasy) lack advanced WMS features. Fishbowl has basic warehouse functions. NetSuite WMS is powerful but expensive. | SMB manufacturers need directed warehouse workflows (putaway, picking, transfers) without enterprise cost. | **Configurable warehouse complexity**: Start simple (1-step), enable advanced (wave picking, directed putaway) as operations grow. |
+| **Feature overload** | Cin7 and Odoo have 700+ integrations and 30+ modules. This breadth overwhelms small teams who only need inventory + production + traceability. | A focused platform that does warehouse, production, and traceability exceptionally well — without forcing commerce, CRM, or HR modules. | **Core + Extensions model**: Base platform = Operations + Traceability + Control. Extensions = Commerce, Advanced Analytics, Multi-channel. |
+| **Traceability as premium** | Katana charges $249/month extra for traceability. Many platforms treat lot tracking as an advanced feature. | Food manufacturers cannot operate without traceability. Making it premium creates a barrier. | **Traceability in base**: Lot tracking, expiry management, basic genealogy included. Advanced recall analytics as extension. |
+| **Mobile gap in manufacturing** | Katana Shop Floor App is production-only. Fishbowl Mobile is warehouse-only. No competitor unifies both in one mobile experience. | Warehouse and production workers need one mobile app for all physical operations. | **Unified mobile app**: Receiving, transfers, production logging, packaging, shipping — all in one mobile interface with offline support. |
+| **Recall response time** | FoodLogiQ reduces recall time by 50%, but requires a separate platform. BatchMaster has graphical trace but is process-specific. | Integrated recall with one-click investigation and automated customer notification. | **Integrated recall module**: Trigger from any lot → auto-identify affected inventory/shipments/customers → generate communications. |
+
+---
+
+---
+
+# 2.9 EXACT IMPLEMENTATION PLAN FOR OUR PRODUCT
+
+> **This section converts all validated research into actual product implementation decisions.**
+> 
+
+| Product Area | Exact Capability We Will Implement | How It Will Work | Core / Extension | Priority | Why We Are Implementing It | Research Influence |
+| --- | --- | --- | --- | --- | --- | --- |
+| Dashboard | Action-first dashboard | Pending work + alerts + quick actions + traceability search | Core | MVP | Daily users should immediately see what needs attention | Katana + Fishbowl + competitor gap analysis |
+| Navigation | Module-based architecture | Operations separated from Admin and system configuration | Core | MVP | Reduce clutter and match daily work patterns | Fishbowl + Katana + Odoo |
+| Receiving | Structured receiving workflow | Expected Receipt → Receive → Inspect → Lot → Pallet → Location | Core | MVP | Traceability begins at receiving | Fishbowl + Odoo + food platforms |
+| Scanning | Scan-first operations | Scan → Identify → Show Context → Confirm | Core | MVP | Reduce manual work and improve accuracy | Odoo + NetSuite + Cin7 + Fishbowl |
+| Inventory | Real-time lot-tracked inventory | Location + lot + status + expiry + available quantity | Core | MVP | Supports operational accuracy and traceability | Fishbowl + Katana + Odoo |
+| Warehouse | Configurable warehouse workflows | Simple operations initially; advanced steps when needed | Core | MVP / Later | Supports small and complex warehouses | Odoo + NetSuite + Fishbowl |
+| Production | Production workspace | Batch-based operations with material consumption and output tracking | Core | MVP | Production is central to current client operations | Katana + Fishbowl + Odoo |
+| Packaging | Packaging batch workflow | Production output → packaging batch → cases → FG lot → pallet | Core | MVP | Required for current traceability chain | Client workflow + ParityFactory |
+| Shipping | Scan-to-verify dispatch | Pick → Scan → Verify Lot → Confirm Dispatch | Core | MVP | Completes customer traceability | Fishbowl + Cin7 |
+| Traceability | Lot genealogy engine | Parent-child relationships + forward/backward trace | Core | MVP | Required for food client and recall readiness | BatchMaster + FoodLogiQ |
+| Quality | Embedded quality checkpoints | Checks at configured operational stages | Core | Later / MVP where required | Quality must control operations, not sit separately | Odoo + ParityFactory + SAP |
+| Supplier Compliance | Supplier documents and compliance data | Supplier profile connected with lots and documents | Extension | Later | Important for food but not required for all industries | TraceGains + FoodLogiQ |
+| Advanced Recall | Recall management workspace | Search → trace impact → affected stock → customers → actions | Extension / Food | Later | Required for advanced food compliance workflows | FoodLogiQ + BatchMaster |
+| Mobile | Unified operational mobile workflows | Receiving, transfers, production logging, shipping | Core | Later | Warehouse execution benefits from mobility | Fishbowl + Odoo + NetSuite |
+| Alerts | Exception-driven alerts | Expiry, quality hold, low stock, delays | Core | MVP | Focus attention on problems | Cross-competitor analysis |
+| Accounting Integration | Accounting synchronization | Connected inventory and financial data | Extension | Later | Important integration, but not core warehouse execution | Fishbowl + Cin7 |
+| Commerce | Optional multichannel integration | External channel synchronization | Extension | Later | Valuable for future industries, not initial core | Cin7 |
+| AI Forecasting | Advanced forecasting | Historical data → demand forecast → recommendation | Extension | Future | Requires sufficient operational data maturity | Cin7 and market direction |
+
+---
+
+## 2.9.2  WORKFLOW IMPLEMENTATION
+
+### **Receiving**
+
+PO or ad-hoc receipt → Scan Container / Select PO → System shows expected items → Scan item / quantity → Inspection (if required) → Pass → Assign internal lot → Pallet → Location → Inventory update → Traceability record created (supplier lot → internal lot).
+
+### **Warehouse Transfer**
+
+Scan Pallet → System shows location + lot details → Scan destination location → Confirm → Movement recorded → Inventory updated in real-time.
+
+### **Production**
+
+Create batch (BOM or manual) → System checks availability (committed vs available) → Scan raw material lots → Verify validity (expiry / no hold) → Confirm consumption → Production process (optional stage tracking) → Quality checkpoint (if configured) → Create output lot (parent/child link to consumed lots) → Traceability updated (raw lots → batch → output lot).
+
+### **Packaging**
+
+Select production output lot → Create packaging batch → Create cases (with IDs) → Create finished goods lot → Assign finished pallet → Quality verification (if configured) → Traceability updated (production → packaging → FG → pallet).
+
+### **Shipping**
+
+Select shipment (SO or manual) → Pick inventory → Scan finished goods → Verify lot + customer match → Confirm dispatch → Customer link created → Forward trace complete.
+
+### **Traceability Investigation**
+
+Search any identifier (lot/pallet/case/PO/supplier lot/customer) → Show current record → Backward trace (source) → Forward trace (destination) → Show affected inventory / shipments / customers → Generate recall letter / notification if needed.
+
+---
+
+## 2.10.3 FINAL IMPLEMENTATION CHECKLIST
+
+### Application Architecture
+
+- [ ]  Dashboard
+- [ ]  Operations
+- [ ]  Traceability
+- [ ]  Control
+- [ ]  Reports
+- [ ]  Master Data
+- [ ]  Administration
+
+---
+
+### Core Operations — MVP
+
+- [ ]  Receiving
+- [ ]  Inventory
+- [ ]  Warehouse
+- [ ]  Production
+- [ ]  Packaging
+- [ ]  Shipping
+
+---
+
+### Warehouse Execution — MVP / Progressive
+
+- [ ]  Pallets
+- [ ]  Locations
+- [ ]  Transfers
+- [ ]  Putaway
+- [ ]  Cycle Counts
+- [ ]  Inventory Adjustments
+
+---
+
+### Traceability — MVP
+
+- [ ]  Supplier Lots
+- [ ]  Internal Lots
+- [ ]  Production Batches
+- [ ]  Packaging Batches
+- [ ]  Finished Goods Lots
+- [ ]  Finished Goods Pallets
+- [ ]  Backward Trace
+- [ ]  Forward Trace
+- [ ]  Lot Genealogy
+
+---
+
+### UX Patterns
+
+- [ ]  Focused operational workflows
+- [ ]  Scan-first actions
+- [ ]  Contextual actions
+- [ ]  Action-first dashboard
+- [ ]  Bulk actions where valuable
+- [ ]  Progressive complexity
+
+---
+
+### Later / Extension
+
+- [ ]  Advanced Quality
+- [ ]  Supplier Compliance
+- [ ]  Advanced Recall
+- [ ]  Mobile Offline Operations
+- [ ]  Accounting Integration
+- [ ]  Commerce Integration
+- [ ]  Advanced Forecasting
+
+---
+
+### Product Architecture Principles
+
+- [ ]  Connected operational data
+- [ ]  Modular architecture
+- [ ]  Industry-neutral core
+- [ ]  Industry-specific extensions
+- [ ]  Traceability embedded into operations
+- [ ]  Progressive complexity
+- [ ]  Configuration without unnecessary technical dependency
+
+---
+
+**competitive analysis (Draft)**
