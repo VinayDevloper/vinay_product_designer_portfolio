@@ -390,7 +390,8 @@ export const EXPERIENCE: ExperienceItem[] = [
   {
     period: "Nov 2022 — July 2026",
     title: "B.Tech — Information Technology",
-    org: "Raigad, Maharashtra, India",
+    org: "DBATU University",
+    location: "Raigad, Maharashtra, India",
     body: "Solid foundation in computer science, systems architecture, and frontend engineering — enabling design decisions deeply grounded in how real software is built."
   }
 ];
